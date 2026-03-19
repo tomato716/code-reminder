@@ -44,6 +44,24 @@ public class SubmissionRepository {
         }
     }
 
+    public void remove(String id) {
+        String sql ="delete from submission where id = ?";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("DB에서 제거 중 오류 발생", e);
+        } finally {
+            close(conn, pstmt);
+        }
+    }
 
     public Optional<Submission> findByUserIdAndProblemId(@NotBlank String userId, @NotNull Long problemId) {
         String sql = "select * from submission where user_id = ? and problem_id = ?";
