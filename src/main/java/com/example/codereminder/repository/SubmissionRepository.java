@@ -1,14 +1,17 @@
 package com.example.codereminder.repository;
 
 import com.example.codereminder.domain.Submission;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -82,6 +85,32 @@ public class SubmissionRepository {
                 conn.close();
             } catch (SQLException e) {
                 throw new RuntimeException("conn 닫기는 도중 에러남", e);
+            }
+        }
+    }
+
+    private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
+        if (pstmt != null) {
+            try{
+                pstmt.close();
+            } catch (SQLException e) {
+                throw new RuntimeException("PreparedStatement 닫기는 도중 에러남", e);
+            }
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException("Connection 닫기는 도중 에러남", e);
+            }
+        }
+
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                throw new RuntimeException("ResultSet 닫기는 도중 에러남",e);
             }
         }
     }
