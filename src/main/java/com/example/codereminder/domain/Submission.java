@@ -3,11 +3,12 @@ package com.example.codereminder.domain;
 import com.example.codereminder.dto.SubmissionDto;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
 @ToString
-@Builder
+@Builder(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Submission {
     private final String id;
