@@ -18,7 +18,13 @@ public class SubmissionService {
 
         //db에 없는데 처음 풀었을 때 바로 맞추면 return
 
-        //당일 틀린 이후 또 풀었으면 return
+    private void saveNewSubmission(SubmissionDto dto) {
+        if(!isSuccess(dto.getResultText())){
+            Submission newSubmission = Submission.from(dto);
+            submissionRepository.save(newSubmission);
+            log.info("DB에 틀린 문제를 저장: {}", dto);
+        }
+    }
 
     private boolean isSuccess(@NotBlank String resultText) {
         return resultText.contains("맞았습니다");
