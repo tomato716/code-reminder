@@ -34,6 +34,11 @@ public class Submission {
                 .lastAttemptDate(dto.getTimestamp())
                 .build();
     }
+
+    public static Submission of(String id, String userId, long problemId, String resultText, long timestamp, long lastAttemptDate) {
+        return new Submission(id, userId, problemId, resultText, timestamp, lastAttemptDate);
+    }
+
     public boolean isReviewDay(LocalDate today) {
         LocalDate submittedDate = Instant.ofEpochMilli(timestamp)
                 .atZone(ZoneId.of("Asia/seoul"))
