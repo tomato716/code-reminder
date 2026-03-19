@@ -20,7 +20,7 @@ public class SubmissionService {
 
         //당일 틀린 이후 또 풀었으면 return
 
-        Submission submission = Submission.from(dto);
-        submissionRepository.save(submission);
+    private boolean isSuccess(@NotBlank String resultText) {
+        return resultText.contains("맞았습니다");
     }
 }
