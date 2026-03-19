@@ -16,6 +16,7 @@ public class Submission {
     private final Long problemId;
     private final String resultText;
     private final Long timestamp;
+    private final Long lastAttemptDate;
 
     public static Submission from(SubmissionDto dto) {
         return Submission.builder()
@@ -24,6 +25,7 @@ public class Submission {
                 .problemId(dto.getProblemId())
                 .resultText(dto.getResultText())
                 .timestamp(dto.getTimestamp())
+                .lastAttemptDate(dto.getTimestamp())
                 .build();
     }
 }
