@@ -12,9 +12,9 @@ import java.util.UUID;
 public class Submission {
     private final String id;
     private final String userId;
-    private final String problemId;
+    private final Long problemId;
     private final String resultText;
-    private final String timestamp;
+    private final LocalDateTime timestamp;
 
     public static Submission from(SubmissionDto dto) {
         return Submission.builder()
