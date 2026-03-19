@@ -41,6 +41,33 @@ public class SubmissionRepository {
         }
     }
 
+
+    public Optional<Submission> findByUserIdAndProblemId(@NotBlank String userId, @NotNull Long problemId) {
+        String sql = "select * from submission where user_id = ? and problem_id = ?";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userId);
+            pstmt.setLong(2, problemId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                Submission submission = Submission.of(rs.getString("id"), rs.getString("user_id"), rs.getLong("problem_id"), rs.getString("result_text"), rs.getLong("timestamp"), rs.getLong("last_attempt_date"));
+                return Optional.of(submission);
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(conn, pstmt, rs);
+        }
+    }
     private void close(Connection conn, PreparedStatement pstmt) {
         if (pstmt != null) {
             try{
