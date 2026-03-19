@@ -89,6 +89,27 @@ public class SubmissionRepository {
             close(conn, pstmt, rs);
         }
     }
+
+    public void updateLastAttemptDate(String id) {
+        String sql = "update submission set last_attempt_date = ? where  id = ?";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, System.currentTimeMillis());
+            pstmt.setString(2, id);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(conn,pstmt);
+        }
+    }
+
     private void close(Connection conn, PreparedStatement pstmt) {
         if (pstmt != null) {
             try{
