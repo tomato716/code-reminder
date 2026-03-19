@@ -19,9 +19,14 @@ public class SubmissionService {
     private final SubmissionRepository submissionRepository;
 
     public void save(SubmissionDto dto) {
-        //해당 문제가 db에 있는지 조회
-        //있다면 복습날짜인지 체크
-        //처음 풀었을 때 바로 맞추면 db에서 제거 후 return
+        Optional<Submission> findSubmission = submissionRepository.findByUserIdAndProblemId(dto.getUserId(), dto.getProblemId());
+        if (findSubmission.isEmpty()) {
+            saveNewSubmission(dto);
+            return;
+        }
+
+        findSubmission.ifPresent(submission -> handleReviewResult(dto, submission));
+    }
 
     private void handleReviewResult(SubmissionDto dto, Submission submission) {
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
