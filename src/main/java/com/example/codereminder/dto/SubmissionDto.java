@@ -2,12 +2,14 @@ package com.example.codereminder.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @ToString
 @RequiredArgsConstructor
 public class SubmissionDto {
     private final String userId;
-    private final String problemId;
+    private final Long problemId;
     private final String resultText;
-    private final String timestamp;
+    private final LocalDateTime timestamp;
 }
