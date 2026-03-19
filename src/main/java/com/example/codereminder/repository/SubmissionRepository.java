@@ -17,7 +17,7 @@ public class SubmissionRepository {
     private final DataSource dataSource;
 
     public void save(Submission submission) {
-        String sql = "insert into submission(id, user_id, problem_id, result_text, timestamp) values(?, ?, ?, ?, ?)";
+        String sql = "insert into submission(id, user_id, problem_id, result_text, timestamp, last_attempt_date) values(?, ?, ?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -31,6 +31,7 @@ public class SubmissionRepository {
             pstmt.setLong(3, submission.getProblemId());
             pstmt.setString(4, submission.getResultText());
             pstmt.setLong(5, submission.getTimestamp());
+            pstmt.setLong(6, submission.getTimestamp());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
