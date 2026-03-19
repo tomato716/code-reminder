@@ -3,7 +3,11 @@ package com.example.codereminder.domain;
 import com.example.codereminder.dto.SubmissionDto;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -11,6 +15,8 @@ import java.util.UUID;
 @Builder(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Submission {
+    private static final List<Long> REVIEW_CYCLE = List.of(1L, 3L, 7L, 21L);
+
     private final String id;
     private final String userId;
     private final Long problemId;
@@ -27,5 +33,12 @@ public class Submission {
                 .timestamp(dto.getTimestamp())
                 .lastAttemptDate(dto.getTimestamp())
                 .build();
+    }
+    public boolean isReviewDay(LocalDate today) {
+        LocalDate submittedDate = Instant.ofEpochMilli(timestamp)
+                .atZone(ZoneId.of("Asia/seoul"))
+                .toLocalDate();
+
+        return REVIEW_CYCLE.contains(ChronoUnit.DAYS.between(submittedDate, today));
     }
 }
