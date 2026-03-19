@@ -5,5 +5,5 @@ create table submission(
     user_id varchar(255),
     problem_id bigint,
     result_text varchar(255),
-    timestamp timestamp
+    timestamp bigint
 )

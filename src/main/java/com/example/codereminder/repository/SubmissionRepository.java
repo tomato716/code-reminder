@@ -30,7 +30,7 @@ public class SubmissionRepository {
             pstmt.setString(2, submission.getUserId());
             pstmt.setLong(3, submission.getProblemId());
             pstmt.setString(4, submission.getResultText());
-            pstmt.setTimestamp(5, Timestamp.valueOf(submission.getTimestamp()));
+            pstmt.setLong(5, submission.getTimestamp());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {

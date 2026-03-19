@@ -15,7 +15,7 @@ public class Submission {
     private final String userId;
     private final Long problemId;
     private final String resultText;
-    private final LocalDateTime timestamp;
+    private final Long timestamp;
 
     public static Submission from(SubmissionDto dto) {
         return Submission.builder()
