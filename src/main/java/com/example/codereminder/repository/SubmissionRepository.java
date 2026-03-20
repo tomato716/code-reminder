@@ -79,7 +79,13 @@ public class SubmissionRepository {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                Submission submission = Submission.of(rs.getString("id"), rs.getString("user_id"), rs.getLong("problem_id"), rs.getString("result_text"), rs.getLong("timestamp"), rs.getLong("last_attempt_date"));
+                Submission submission = Submission.of(rs.getString("id"),
+                        rs.getString("user_id"),
+                        rs.getLong("problem_id"),
+                        rs.getString("result_text"),
+                        rs.getLong("timestamp"),
+                        rs.getLong("last_attempt_date"));
+
                 return Optional.of(submission);
             }
             return Optional.empty();
