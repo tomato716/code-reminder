@@ -41,7 +41,7 @@ public class Submission {
 
     public boolean isReviewDay(LocalDate today) {
         LocalDate submittedDate = Instant.ofEpochMilli(timestamp)
-                .atZone(ZoneId.of("Asia/seoul"))
+                .atZone(ZoneId.of("Asia/Seoul"))
                 .toLocalDate();
 
         return REVIEW_CYCLE.contains(ChronoUnit.DAYS.between(submittedDate, today));
