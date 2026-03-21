@@ -34,7 +34,7 @@ public class Submission {
                 .build();
     }
 
-    public static Submission of(String id, String userId, long problemId, String resultText, long timestamp, long lastAttemptDate) {
+    public static Submission of(String id, String userId, Long problemId, String resultText, Long timestamp, Long lastAttemptDate) {
         return new Submission(id, userId, problemId, resultText, timestamp, lastAttemptDate);
     }
 

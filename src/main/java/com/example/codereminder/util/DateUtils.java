@@ -6,13 +6,13 @@ import java.time.ZoneId;
 
 public class DateUtils {
 
-    public static long toTimestamp(LocalDate localDate) {
+    public static Long toTimestamp(LocalDate localDate) {
         return localDate.atStartOfDay(ZoneId.of("Asia/Seoul"))
                 .toInstant()
                 .toEpochMilli();
     }
 
-    public static LocalDate toLocalDate(long timestamp) {
+    public static LocalDate toLocalDate(Long timestamp) {
         return Instant.ofEpochMilli(timestamp)
                 .atZone(ZoneId.of("Asia/Seoul"))
                 .toLocalDate();

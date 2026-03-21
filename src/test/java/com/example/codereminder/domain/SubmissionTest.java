@@ -18,7 +18,7 @@ class SubmissionTest {
     void isReviewDay_Success(int reviewDay) {
         //given
         LocalDate now = LocalDate.now();
-        long todayTimestamp = DateUtils.toTimestamp(now);
+        Long todayTimestamp = DateUtils.toTimestamp(now);
 
         Submission submission = Submission.of("1", "park", 10L, "틀렸습니다", todayTimestamp, todayTimestamp);
         LocalDate dateToReview = now.plusDays(reviewDay);
@@ -36,7 +36,7 @@ class SubmissionTest {
     void isReviewDay_Failure(int reviewDay) {
         //given
         LocalDate now = LocalDate.now();
-        long todayTimestamp = DateUtils.toTimestamp(now);
+        Long todayTimestamp = DateUtils.toTimestamp(now);
 
         Submission submission = Submission.of("1", "park", 10L, "틀렸습니다", todayTimestamp, todayTimestamp);
         LocalDate dateToReview = now.plusDays(reviewDay);

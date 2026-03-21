@@ -27,7 +27,7 @@ class SubmissionRepositoryTest {
 
     @BeforeEach
     void setup() {
-        long dateOfFirstFailure = LocalDate.now().atStartOfDay(ZoneId.of("Asia/Seoul"))
+        Long dateOfFirstFailure = LocalDate.now().atStartOfDay(ZoneId.of("Asia/Seoul"))
                 .toInstant()
                 .toEpochMilli();
 

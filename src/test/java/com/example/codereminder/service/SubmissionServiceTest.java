@@ -35,7 +35,7 @@ class SubmissionServiceTest {
     @DisplayName("틀린 경우 DB에서 찾아보고 없으면 새로운 엔티티를 DB에 저장한다.")
     void saveUnresolvedNewSubmission() {
         //given
-        long timestamp = DateUtils.toTimestamp(LocalDate.now());
+        Long timestamp = DateUtils.toTimestamp(LocalDate.now());
 
         SubmissionDto unresolvedDto = new SubmissionDto("park", 2000L, "틀렸습니다", timestamp);
 
@@ -54,7 +54,7 @@ class SubmissionServiceTest {
     @DisplayName("맞춘 경우 DB에서 찾아보고 없으면 저장하지 않는다.")
     void doNotSaveTheSolvedSubmission() {
         //given
-        long timestamp = DateUtils.toTimestamp(LocalDate.now());
+        Long timestamp = DateUtils.toTimestamp(LocalDate.now());
 
         SubmissionDto solvedDto = new SubmissionDto("park", 2000L, "맞았습니다!!", timestamp);
 
@@ -75,7 +75,7 @@ class SubmissionServiceTest {
         //given
         SubmissionDto unresolvedToday = new SubmissionDto("park", 2000L, "틀렸습니다", DateUtils.toTimestamp(LocalDate.now()));
 
-        long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
+        Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
         Submission submission = Submission.of("1","park",2000L,"틀렸습니다", reviewDay, reviewDay);
         given(submissionRepository.findByUserIdAndProblemId(unresolvedToday.getUserId(), unresolvedToday.getProblemId()))
                 .willReturn(Optional.of(submission));
@@ -94,7 +94,7 @@ class SubmissionServiceTest {
         //given
         SubmissionDto solvedToday = new SubmissionDto("park", 2000L, "맞았습니다!!", DateUtils.toTimestamp(LocalDate.now()));
 
-        long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
+        Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
         Submission submission = Submission.of("1", "park", 2000L, "틀렸습니다", reviewDay, reviewDay);
         given(submissionRepository.findByUserIdAndProblemId(solvedToday.getUserId(), solvedToday.getProblemId()))
                 .willReturn(Optional.of(submission));
@@ -118,7 +118,7 @@ class SubmissionServiceTest {
         //given
         SubmissionDto todaySubmission = new SubmissionDto("park", 2000L, resultText, DateUtils.toTimestamp(LocalDate.now()));
 
-        long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
+        Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
         Submission submission = Submission.of("1", "park", 2000L, "틀렸습니다", reviewDay, reviewDay);
         given(submissionRepository.findByUserIdAndProblemId(todaySubmission.getUserId(), todaySubmission.getProblemId()))
                 .willReturn(Optional.of(submission));
