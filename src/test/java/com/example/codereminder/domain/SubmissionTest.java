@@ -1,5 +1,6 @@
 package com.example.codereminder.domain;
 
+import com.example.codereminder.util.DateUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -17,14 +18,13 @@ class SubmissionTest {
     void isReviewDay_Success(int reviewDay) {
         //given
         LocalDate now = LocalDate.now();
-        long dateOfFirstFailure = now.atStartOfDay(ZoneId.of("Asia/Seoul"))
-                .toInstant()
-                .toEpochMilli();
-        Submission submission = Submission.of("1", "park", 10L, "틀렸습니다", dateOfFirstFailure, dateOfFirstFailure);
+        long todayTimestamp = DateUtils.toTimestamp(now);
+
+        Submission submission = Submission.of("1", "park", 10L, "틀렸습니다", todayTimestamp, todayTimestamp);
         LocalDate dateToReview = now.plusDays(reviewDay);
 
         //when
-        boolean result = submission.isReviewDay(dateToReview);
+        boolean result = submission.isReviewDay(DateUtils.toTimestamp(dateToReview));
 
         //then
         assertThat(result).isTrue();
@@ -36,14 +36,13 @@ class SubmissionTest {
     void isReviewDay_Failure(int reviewDay) {
         //given
         LocalDate now = LocalDate.now();
-        long dateOfFirstFailure = now.atStartOfDay(ZoneId.of("Asia/Seoul"))
-                .toInstant()
-                .toEpochMilli();
-        Submission submission = Submission.of("1", "park", 10L, "틀렸습니다", dateOfFirstFailure, dateOfFirstFailure);
+        long todayTimestamp = DateUtils.toTimestamp(now);
+
+        Submission submission = Submission.of("1", "park", 10L, "틀렸습니다", todayTimestamp, todayTimestamp);
         LocalDate dateToReview = now.plusDays(reviewDay);
 
         //when
-        boolean result = submission.isReviewDay(dateToReview);
+        boolean result = submission.isReviewDay(DateUtils.toTimestamp(dateToReview));
 
         //then
         assertThat(result).isFalse();

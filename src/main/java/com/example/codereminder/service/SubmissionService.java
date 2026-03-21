@@ -3,13 +3,12 @@ package com.example.codereminder.service;
 import com.example.codereminder.domain.Submission;
 import com.example.codereminder.dto.SubmissionDto;
 import com.example.codereminder.repository.SubmissionRepository;
+import com.example.codereminder.util.DateUtils;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Optional;
 
 @Service
@@ -29,9 +28,7 @@ public class SubmissionService {
     }
 
     private void handleReviewResult(SubmissionDto dto, Submission submission) {
-        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
-
-        if(submission.isReviewDay(today)){
+        if(submission.isReviewDay(dto.getTimestamp())){
             if(isSuccess(dto.getResultText())){
                 submissionRepository.remove(submission.getId());
                 log.info("복습할 문제를 바로 맞춰서 db에서 제거: {}", dto.getProblemId());

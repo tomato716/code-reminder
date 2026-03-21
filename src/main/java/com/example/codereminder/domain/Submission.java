@@ -1,11 +1,10 @@
 package com.example.codereminder.domain;
 
 import com.example.codereminder.dto.SubmissionDto;
+import com.example.codereminder.util.DateUtils;
 import lombok.*;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
@@ -39,10 +38,9 @@ public class Submission {
         return new Submission(id, userId, problemId, resultText, timestamp, lastAttemptDate);
     }
 
-    public boolean isReviewDay(LocalDate today) {
-        LocalDate submittedDate = Instant.ofEpochMilli(timestamp)
-                .atZone(ZoneId.of("Asia/Seoul"))
-                .toLocalDate();
+    public boolean isReviewDay(long dtoTimestamp) {
+        LocalDate submittedDate = DateUtils.toLocalDate(timestamp);
+        LocalDate today = DateUtils.toLocalDate(dtoTimestamp);
 
         return REVIEW_CYCLE.contains(ChronoUnit.DAYS.between(submittedDate, today));
     }
