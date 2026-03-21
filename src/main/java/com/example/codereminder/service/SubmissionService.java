@@ -35,7 +35,7 @@ public class SubmissionService {
                 return;
             }
 
-            submissionRepository.updateLastAttemptDate(submission.getId());
+            submissionRepository.updateLastAttemptDate(submission.getId(), dto.getTimestamp());
             log.info("복습할 문제 다시 틀려서 db 갱신");
         }
     }

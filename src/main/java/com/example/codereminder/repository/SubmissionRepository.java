@@ -96,7 +96,7 @@ public class SubmissionRepository {
         }
     }
 
-    public void updateLastAttemptDate(String id) {
+    public void updateLastAttemptDate(String id, Long timestamp) {
         String sql = "update submission set last_attempt_date = ? where  id = ?";
 
         Connection conn = null;
@@ -105,7 +105,7 @@ public class SubmissionRepository {
         try {
             conn = dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setLong(1, System.currentTimeMillis());
+            pstmt.setLong(1, timestamp);
             pstmt.setString(2, id);
 
             pstmt.executeUpdate();

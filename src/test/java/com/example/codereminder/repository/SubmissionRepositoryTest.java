@@ -79,7 +79,7 @@ class SubmissionRepositoryTest {
         Long beforeLastAttemptDate = submission.getLastAttemptDate();
 
         //when
-        submissionRepository.updateLastAttemptDate(SUBMISSION_ID);
+        submissionRepository.updateLastAttemptDate(SUBMISSION_ID, System.currentTimeMillis());
         Optional<Submission> optionalSubmission = submissionRepository.findByUserIdAndProblemId(submission.getUserId(), submission.getProblemId());
 
         assertThat(optionalSubmission).isPresent();
