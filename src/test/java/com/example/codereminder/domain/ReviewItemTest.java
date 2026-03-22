@@ -16,14 +16,16 @@ class ReviewItemTest {
     @ValueSource(ints = {1, 3, 7, 21})
     void isReviewDay_Success(int reviewDay) {
         //given
+
+
         LocalDate now = LocalDate.now();
         Long todayTimestamp = DateUtils.toTimestamp(now);
 
-        ReviewItem reviewItem = ReviewItem.of("1", "park", 10L, "틀렸습니다", todayTimestamp, todayTimestamp);
+        ReviewItem reviewItem = new ReviewItem("1", "park", 10L, "틀렸습니다", LocalDate.now(), todayTimestamp);
         LocalDate dateToReview = now.plusDays(reviewDay);
 
         //when
-        boolean result = reviewItem.isReviewDay(DateUtils.toTimestamp(dateToReview));
+        boolean result = reviewItem.isReviewDay(LocalDate.now());
 
         //then
         assertThat(result).isTrue();
@@ -41,7 +43,7 @@ class ReviewItemTest {
         LocalDate dateToReview = now.plusDays(reviewDay);
 
         //when
-        boolean result = reviewItem.isReviewDay(DateUtils.toTimestamp(dateToReview));
+        boolean result = reviewItem.isReviewDay();
 
         //then
         assertThat(result).isFalse();

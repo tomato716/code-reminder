@@ -1,7 +1,7 @@
 package com.example.codereminder.service;
 
 import com.example.codereminder.domain.ReviewItem;
-import com.example.codereminder.dto.SubmissionDto;
+import com.example.codereminder.dto.ReviewItemDto;
 import com.example.codereminder.repository.ReviewItemRepository;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SubmissionService {
     private final ReviewItemRepository repository;
 
-    public void save(SubmissionDto dto) {
+    public void save(ReviewItemDto dto) {
         repository.findByUserNameAndProblemId(dto.getUserName(), dto.getProblemId())
                 .ifPresentOrElse(
                         submission -> handleReviewResult(dto, submission),
@@ -24,7 +24,7 @@ public class SubmissionService {
                 );
     }
 
-    private void handleReviewResult(SubmissionDto dto, ReviewItem reviewItem) {
+    private void handleReviewResult(ReviewItemDto dto, ReviewItem reviewItem) {
         if (reviewItem.isReviewDay()) {
             if (isSuccess(dto.getResultText())) {
                 repository.delete(reviewItem);
@@ -46,7 +46,7 @@ public class SubmissionService {
         }
     }
 
-    private void saveNewSubmission(SubmissionDto dto) {
+    private void saveNewSubmission(ReviewItemDto dto) {
         if (!isSuccess(dto.getResultText())) {
             ReviewItem newReviewItem = ReviewItem.from(dto);
             ReviewItem savedReviewItem = repository.save(newReviewItem);

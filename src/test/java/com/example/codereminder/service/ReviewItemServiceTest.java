@@ -1,7 +1,7 @@
 package com.example.codereminder.service;
 
 import com.example.codereminder.domain.ReviewItem;
-import com.example.codereminder.dto.SubmissionDto;
+import com.example.codereminder.dto.ReviewItemDto;
 import com.example.codereminder.repository.JdbcRepository;
 import com.example.codereminder.util.DateUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +37,7 @@ class ReviewItemServiceTest {
         //given
         Long timestamp = DateUtils.toTimestamp(LocalDate.now());
 
-        SubmissionDto unresolvedDto = new SubmissionDto("park", 2000L, "틀렸습니다", timestamp);
+        ReviewItemDto unresolvedDto = new ReviewItemDto("park", 2000L, "틀렸습니다", timestamp);
 
 
         given(jdbcRepository.findByUserNameAndProblemId(unresolvedDto.getUserName(), unresolvedDto.getProblemId()))
@@ -56,7 +56,7 @@ class ReviewItemServiceTest {
         //given
         Long timestamp = DateUtils.toTimestamp(LocalDate.now());
 
-        SubmissionDto solvedDto = new SubmissionDto("park", 2000L, "맞았습니다!!", timestamp);
+        ReviewItemDto solvedDto = new ReviewItemDto("park", 2000L, "맞았습니다!!", timestamp);
 
         given(jdbcRepository.findByUserNameAndProblemId(solvedDto.getUserName(), solvedDto.getProblemId()))
                 .willReturn(Optional.empty());
@@ -73,7 +73,7 @@ class ReviewItemServiceTest {
     @DisplayName("틀린 경우 DB에서 엔티티를 찾고 복습일이라면 마지막 시도 날짜를 갱신한다.")
     void unresolvedAtReviewDate(int date) {
         //given
-        SubmissionDto unresolvedToday = new SubmissionDto("park", 2000L, "틀렸습니다", DateUtils.toTimestamp(LocalDate.now()));
+        ReviewItemDto unresolvedToday = new ReviewItemDto("park", 2000L, "틀렸습니다", DateUtils.toTimestamp(LocalDate.now()));
 
         Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
         ReviewItem reviewItem = ReviewItem.of("1","park",2000L,"틀렸습니다", reviewDay, reviewDay);
@@ -92,7 +92,7 @@ class ReviewItemServiceTest {
     @DisplayName("맞춘 경우 DB에서 엔티티를 찾고 복습일이라면 마지막 시도 날짜를 갱신한다.")
     void solvedAtReviewDate(int date) {
         //given
-        SubmissionDto solvedToday = new SubmissionDto("park", 2000L, "맞았습니다!!", DateUtils.toTimestamp(LocalDate.now()));
+        ReviewItemDto solvedToday = new ReviewItemDto("park", 2000L, "맞았습니다!!", DateUtils.toTimestamp(LocalDate.now()));
 
         Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
         ReviewItem reviewItem = ReviewItem.of("1", "park", 2000L, "틀렸습니다", reviewDay, reviewDay);
@@ -116,7 +116,7 @@ class ReviewItemServiceTest {
     @DisplayName("DB에서 엔티티를 찾고 복습일이 아니라면 아무 로직도 호출되지 않는다.")
     void isNotReviewDate(int date, String resultText) {
         //given
-        SubmissionDto todaySubmission = new SubmissionDto("park", 2000L, resultText, DateUtils.toTimestamp(LocalDate.now()));
+        ReviewItemDto todaySubmission = new ReviewItemDto("park", 2000L, resultText, DateUtils.toTimestamp(LocalDate.now()));
 
         Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
         ReviewItem reviewItem = ReviewItem.of("1", "park", 2000L, "틀렸습니다", reviewDay, reviewDay);

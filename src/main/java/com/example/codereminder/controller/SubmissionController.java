@@ -1,6 +1,6 @@
 package com.example.codereminder.controller;
 
-import com.example.codereminder.dto.SubmissionDto;
+import com.example.codereminder.dto.ReviewItemDto;
 import com.example.codereminder.service.SubmissionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ public class SubmissionController {
     private final SubmissionService submissionService;
 
     @PostMapping
-    public String saveSubmission(@Validated @RequestBody SubmissionDto dto){
+    public String saveSubmission(@Validated @RequestBody ReviewItemDto dto){
         log.info("도착 데이터={}", dto);
         submissionService.save(dto);
 

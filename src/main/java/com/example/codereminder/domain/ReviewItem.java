@@ -1,11 +1,10 @@
 package com.example.codereminder.domain;
 
-import com.example.codereminder.dto.SubmissionDto;
+import com.example.codereminder.dto.ReviewItemDto;
 import com.example.codereminder.util.DateUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -33,7 +32,7 @@ public class ReviewItem {
     private int reviewLevel;
     private LocalDate nextReviewDate;
 
-    public static ReviewItem from(SubmissionDto dto) {
+    public static ReviewItem from(ReviewItemDto dto) {
         return ReviewItem.builder()
                 .id(UUID.randomUUID().toString())
                 .userName(dto.getUserName())
@@ -46,16 +45,16 @@ public class ReviewItem {
                 .build();
     }
 
-    public boolean isReviewDay() {
-        return nextReviewDate.isEqual(LocalDate.now());
+    public boolean isReviewDay(LocalDate date) {
+        return nextReviewDate.isEqual(date);
 //        LocalDate submittedDate = DateUtils.toLocalDate(timestamp);
 //        LocalDate today = DateUtils.toLocalDate(dtoTimestamp);
 //
 //        return REVIEW_CYCLE.contains(ChronoUnit.DAYS.between(submittedDate, today));
     }
 
-    public void updateIfOverReviewDate(LocalDate today) {
-        if (today.isAfter(nextReviewDate)) {
+    public void updateIfOverReviewDate(LocalDate date) {
+        if (date.isAfter(nextReviewDate)) {
             nextReviewDate = LocalDate.now();
         }
     }

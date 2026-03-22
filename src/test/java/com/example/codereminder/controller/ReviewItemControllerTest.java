@@ -1,6 +1,6 @@
 package com.example.codereminder.controller;
 
-import com.example.codereminder.dto.SubmissionDto;
+import com.example.codereminder.dto.ReviewItemDto;
 import com.example.codereminder.service.SubmissionService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,13 +39,13 @@ class ReviewItemControllerTest {
     @DisplayName("userName, problemId, resultText, timestamp 값이 모두 있으면 상태 200을 반환한다.")
     void saveSubmission_Success() throws Exception {
         //given
-        SubmissionDto submissionDto = new SubmissionDto(
+        ReviewItemDto reviewItemDto = new ReviewItemDto(
                 "park",
                 2000L,
                 "틀렸습니다",
                 System.currentTimeMillis());
 
-        String json = objectMapper.writeValueAsString(submissionDto);
+        String json = objectMapper.writeValueAsString(reviewItemDto);
 
         //when
         mockMvc.perform(post("/api/submissions")
@@ -56,15 +56,15 @@ class ReviewItemControllerTest {
                 .andExpect(content().string("ok"));
 
         //then
-        then(submissionService).should().save(any(SubmissionDto.class));
+        then(submissionService).should().save(any(ReviewItemDto.class));
     }
 
     @ParameterizedTest
     @MethodSource("provideInvalidDto")
     @DisplayName("userName, problemId, resultText, timestamp 중 하나라도 없으면 상태 400을 반환한다.")
-    void saveSubmission_Failure(SubmissionDto submissionDto) throws Exception {
+    void saveSubmission_Failure(ReviewItemDto reviewItemDto) throws Exception {
         //given
-        String json = objectMapper.writeValueAsString(submissionDto);
+        String json = objectMapper.writeValueAsString(reviewItemDto);
 
         //when
         mockMvc.perform(post("/api/submissions")
@@ -74,15 +74,15 @@ class ReviewItemControllerTest {
                 .andExpect(status().isBadRequest());
 
         //then
-        then(submissionService).should(never()).save(any(SubmissionDto.class));
+        then(submissionService).should(never()).save(any(ReviewItemDto.class));
     }
 
     private static Stream<Arguments> provideInvalidDto() {
         return Stream.of(
-                Arguments.of(new SubmissionDto("", 2000L, "틀렸습니다", System.currentTimeMillis())),
-                Arguments.of(new SubmissionDto("park", null, "틀렸습니다", System.currentTimeMillis())),
-                Arguments.of(new SubmissionDto("park", 2000L, "", System.currentTimeMillis())),
-                Arguments.of(new SubmissionDto("park", 2000L, "틀렸습니다", null))
+                Arguments.of(new ReviewItemDto("", 2000L, "틀렸습니다", System.currentTimeMillis())),
+                Arguments.of(new ReviewItemDto("park", null, "틀렸습니다", System.currentTimeMillis())),
+                Arguments.of(new ReviewItemDto("park", 2000L, "", System.currentTimeMillis())),
+                Arguments.of(new ReviewItemDto("park", 2000L, "틀렸습니다", null))
         );
     }
 }

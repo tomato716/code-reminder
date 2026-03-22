@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class SubmissionDto {
+public class ReviewItemDto {
     @NotBlank
     private final String userName;
     @NotNull
