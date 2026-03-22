@@ -6,11 +6,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SubmissionTest {
+class ReviewItemTest {
 
     @DisplayName("복습 날짜가 1, 3, 7, 21에 해당한다면 성공한다.")
     @ParameterizedTest
@@ -20,11 +19,11 @@ class SubmissionTest {
         LocalDate now = LocalDate.now();
         Long todayTimestamp = DateUtils.toTimestamp(now);
 
-        Submission submission = Submission.of("1", "park", 10L, "틀렸습니다", todayTimestamp, todayTimestamp);
+        ReviewItem reviewItem = ReviewItem.of("1", "park", 10L, "틀렸습니다", todayTimestamp, todayTimestamp);
         LocalDate dateToReview = now.plusDays(reviewDay);
 
         //when
-        boolean result = submission.isReviewDay(DateUtils.toTimestamp(dateToReview));
+        boolean result = reviewItem.isReviewDay(DateUtils.toTimestamp(dateToReview));
 
         //then
         assertThat(result).isTrue();
@@ -38,11 +37,11 @@ class SubmissionTest {
         LocalDate now = LocalDate.now();
         Long todayTimestamp = DateUtils.toTimestamp(now);
 
-        Submission submission = Submission.of("1", "park", 10L, "틀렸습니다", todayTimestamp, todayTimestamp);
+        ReviewItem reviewItem = ReviewItem.of("1", "park", 10L, "틀렸습니다", todayTimestamp, todayTimestamp);
         LocalDate dateToReview = now.plusDays(reviewDay);
 
         //when
-        boolean result = submission.isReviewDay(DateUtils.toTimestamp(dateToReview));
+        boolean result = reviewItem.isReviewDay(DateUtils.toTimestamp(dateToReview));
 
         //then
         assertThat(result).isFalse();

@@ -1,6 +1,6 @@
 package com.example.codereminder.repository;
 
-import com.example.codereminder.domain.Submission;
+import com.example.codereminder.domain.ReviewItem;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +15,12 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class SubmissionRepository {
+public class JdbcRepository {
 
     private final DataSource dataSource;
 
-    public void save(Submission submission) {
-        String sql = "insert into submission(id, user_id, problem_id, result_text, timestamp, last_attempt_timestamp) values(?, ?, ?, ?, ?, ?)";
+    public void save(ReviewItem reviewItem) {
+        String sql = "insert into submission(id, user_name, problem_id, result_text, timestamp, last_attempt_timestamp) values(?, ?, ?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -29,23 +29,23 @@ public class SubmissionRepository {
             conn = dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
 
-            pstmt.setString(1, submission.getId());
-            pstmt.setString(2, submission.getUserName());
-            pstmt.setLong(3, submission.getProblemId());
-            pstmt.setString(4, submission.getResultText());
-            pstmt.setLong(5, submission.getTimestamp());
-            pstmt.setLong(6, submission.getTimestamp());
+            pstmt.setString(1, reviewItem.getId());
+            pstmt.setString(2, reviewItem.getUserName());
+            pstmt.setLong(3, reviewItem.getProblemId());
+            pstmt.setString(4, reviewItem.getResultText());
+            pstmt.setLong(5, reviewItem.getTimestamp());
+            pstmt.setLong(6, reviewItem.getTimestamp());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("저장 중 오류 발생", e);
-        }finally {
+        } finally {
             close(conn, pstmt);
         }
     }
 
     public void remove(String id) {
-        String sql ="delete from submission where id = ?";
+        String sql = "delete from submission where id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -63,7 +63,7 @@ public class SubmissionRepository {
         }
     }
 
-    public Optional<Submission> findByUserNameAndProblemId(@NotBlank String userName, @NotNull Long problemId) {
+    /*public Optional<ReviewItem> findByUserNameAndProblemId(@NotBlank String userName, @NotNull Long problemId) {
         String sql = "select * from submission where user_name = ? and problem_id = ?";
 
         Connection conn = null;
@@ -79,23 +79,23 @@ public class SubmissionRepository {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                Submission submission = Submission.of(rs.getString("id"),
-                        rs.getString("user_id"),
+                ReviewItem reviewItem = ReviewItem.of(rs.getString("id"),
+                        rs.getString("user_name"),
                         rs.getLong("problem_id"),
                         rs.getString("result_text"),
                         rs.getLong("timestamp"),
                         rs.getLong("last_attempt_timestamp"));
 
-                return Optional.of(submission);
+                return Optional.of(reviewItem);
             }
             return Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             close(conn, pstmt, rs);
         }
     }
-
+*/
     public void updateLastAttemptTimestamp(String id, Long timestamp) {
         String sql = "update submission set last_attempt_timestamp = ? where  id = ?";
 
@@ -111,14 +111,44 @@ public class SubmissionRepository {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            close(conn,pstmt);
+        } finally {
+            close(conn, pstmt);
         }
     }
 
+    /*public Optional<ReviewItems> findByUserName(String userName) {
+        LocalDate now = LocalDate.now();
+        String sql = "select * from submission where user_name = ? and  next_review_date = now";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs;
+
+        try {
+            conn = dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, userName);
+
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                rs.getString()
+
+                Optional.of(ReviewItems);
+            }
+
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(conn, pstmt, rs);
+        }
+    }*/
+
     private void close(Connection conn, PreparedStatement pstmt) {
         if (pstmt != null) {
-            try{
+            try {
                 pstmt.close();
             } catch (SQLException e) {
                 throw new RuntimeException("pstmt 닫기는 도중 에러남", e);
@@ -136,7 +166,7 @@ public class SubmissionRepository {
 
     private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         if (pstmt != null) {
-            try{
+            try {
                 pstmt.close();
             } catch (SQLException e) {
                 throw new RuntimeException("PreparedStatement 닫기는 도중 에러남", e);
@@ -155,7 +185,7 @@ public class SubmissionRepository {
             try {
                 rs.close();
             } catch (SQLException e) {
-                throw new RuntimeException("ResultSet 닫기는 도중 에러남",e);
+                throw new RuntimeException("ResultSet 닫기는 도중 에러남", e);
             }
         }
     }

@@ -1,8 +1,8 @@
 package com.example.codereminder.service;
 
-import com.example.codereminder.domain.Submission;
+import com.example.codereminder.domain.ReviewItem;
 import com.example.codereminder.dto.SubmissionDto;
-import com.example.codereminder.repository.SubmissionRepository;
+import com.example.codereminder.repository.JdbcRepository;
 import com.example.codereminder.util.DateUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,10 +23,10 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.never;
 
 @ExtendWith(MockitoExtension.class)
-class SubmissionServiceTest {
+class ReviewItemServiceTest {
 
     @Mock
-    private SubmissionRepository submissionRepository;
+    private JdbcRepository jdbcRepository;
 
     @InjectMocks
     private SubmissionService submissionService;
@@ -40,14 +40,14 @@ class SubmissionServiceTest {
         SubmissionDto unresolvedDto = new SubmissionDto("park", 2000L, "틀렸습니다", timestamp);
 
 
-        given(submissionRepository.findByUserNameAndProblemId(unresolvedDto.getUserName(), unresolvedDto.getProblemId()))
+        given(jdbcRepository.findByUserNameAndProblemId(unresolvedDto.getUserName(), unresolvedDto.getProblemId()))
                 .willReturn(Optional.empty());
 
         //when
         submissionService.save(unresolvedDto);
 
         //then
-        then(submissionRepository).should().save(any(Submission.class));
+        then(jdbcRepository).should().save(any(ReviewItem.class));
     }
 
     @Test
@@ -58,14 +58,14 @@ class SubmissionServiceTest {
 
         SubmissionDto solvedDto = new SubmissionDto("park", 2000L, "맞았습니다!!", timestamp);
 
-        given(submissionRepository.findByUserNameAndProblemId(solvedDto.getUserName(), solvedDto.getProblemId()))
+        given(jdbcRepository.findByUserNameAndProblemId(solvedDto.getUserName(), solvedDto.getProblemId()))
                 .willReturn(Optional.empty());
 
         //when
         submissionService.save(solvedDto);
 
         //then
-        then(submissionRepository).should(never()).save(any(Submission.class));
+        then(jdbcRepository).should(never()).save(any(ReviewItem.class));
     }
 
     @ParameterizedTest
@@ -76,15 +76,15 @@ class SubmissionServiceTest {
         SubmissionDto unresolvedToday = new SubmissionDto("park", 2000L, "틀렸습니다", DateUtils.toTimestamp(LocalDate.now()));
 
         Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
-        Submission submission = Submission.of("1","park",2000L,"틀렸습니다", reviewDay, reviewDay);
-        given(submissionRepository.findByUserNameAndProblemId(unresolvedToday.getUserName(), unresolvedToday.getProblemId()))
-                .willReturn(Optional.of(submission));
+        ReviewItem reviewItem = ReviewItem.of("1","park",2000L,"틀렸습니다", reviewDay, reviewDay);
+        given(jdbcRepository.findByUserNameAndProblemId(unresolvedToday.getUserName(), unresolvedToday.getProblemId()))
+                .willReturn(Optional.of(reviewItem));
 
         //when
         submissionService.save(unresolvedToday);
 
         //then
-        then(submissionRepository).should().updateLastAttemptTimestamp(submission.getId(), unresolvedToday.getTimestamp());
+        then(jdbcRepository).should().updateLastAttemptTimestamp(reviewItem.getId(), unresolvedToday.getTimestamp());
     }
 
     @ParameterizedTest
@@ -95,15 +95,15 @@ class SubmissionServiceTest {
         SubmissionDto solvedToday = new SubmissionDto("park", 2000L, "맞았습니다!!", DateUtils.toTimestamp(LocalDate.now()));
 
         Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
-        Submission submission = Submission.of("1", "park", 2000L, "틀렸습니다", reviewDay, reviewDay);
-        given(submissionRepository.findByUserNameAndProblemId(solvedToday.getUserName(), solvedToday.getProblemId()))
-                .willReturn(Optional.of(submission));
+        ReviewItem reviewItem = ReviewItem.of("1", "park", 2000L, "틀렸습니다", reviewDay, reviewDay);
+        given(jdbcRepository.findByUserNameAndProblemId(solvedToday.getUserName(), solvedToday.getProblemId()))
+                .willReturn(Optional.of(reviewItem));
 
         //when
         submissionService.save(solvedToday);
 
         //then
-        then(submissionRepository).should().remove(submission.getId());
+        then(jdbcRepository).should().remove(reviewItem.getId());
     }
 
     @ParameterizedTest
@@ -119,15 +119,15 @@ class SubmissionServiceTest {
         SubmissionDto todaySubmission = new SubmissionDto("park", 2000L, resultText, DateUtils.toTimestamp(LocalDate.now()));
 
         Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
-        Submission submission = Submission.of("1", "park", 2000L, "틀렸습니다", reviewDay, reviewDay);
-        given(submissionRepository.findByUserNameAndProblemId(todaySubmission.getUserName(), todaySubmission.getProblemId()))
-                .willReturn(Optional.of(submission));
+        ReviewItem reviewItem = ReviewItem.of("1", "park", 2000L, "틀렸습니다", reviewDay, reviewDay);
+        given(jdbcRepository.findByUserNameAndProblemId(todaySubmission.getUserName(), todaySubmission.getProblemId()))
+                .willReturn(Optional.of(reviewItem));
 
         //when
         submissionService.save(todaySubmission);
 
         //then
-        then(submissionRepository).should(never()).updateLastAttemptTimestamp(submission.getId(), todaySubmission.getTimestamp());
-        then(submissionRepository).should(never()).remove(submission.getId());
+        then(jdbcRepository).should(never()).updateLastAttemptTimestamp(reviewItem.getId(), todaySubmission.getTimestamp());
+        then(jdbcRepository).should(never()).remove(reviewItem.getId());
     }
 }

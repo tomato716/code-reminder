@@ -1,14 +1,13 @@
 package com.example.codereminder.service;
 
-import com.example.codereminder.domain.Submission;
+import com.example.codereminder.domain.ReviewItem;
 import com.example.codereminder.dto.SubmissionDto;
-import com.example.codereminder.repository.SubmissionRepository;
+import com.example.codereminder.repository.ReviewItemRepository;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
