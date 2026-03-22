@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Reminder</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="py-5 text-center">
+            <h1 th:text="${userName}님의 오늘 복습 문제">복습해야 할 문제 목록</h1>
+        </div>
+    <table class="table table-bordered">
+        <thead class="table-primary text-center">
+            <tr>
+                <th>번호</th>
+                <th>유저명</th>
+                <th>문제 번호</th>
+                <th>바로가기</th>
+            </tr>
+        </thead>
+
+        <tr th:each="item, stat : ${reviewItems}"
+        th:classappend="${item.isCompletedReview(today)} ? 'table-success' : ''"
+        class="text-center">
+            <td th:text="${stat.count}">count</td>
+            <td th:text="${item.userName}">username</td>
+            <td>
+                <a th:href="@{|https://www.acmicpc.net/problem/${item.problemId}|}"
+                th:text="${item.problemId}"
+                target="_blank">problemId</a>
+            </td>
+            <td>
+                <button>
+                    <a th:href="@{|https://www.acmicpc.net/problem/${item.problemId}|}" href="https://www.acmicpc.net/problem/1000">
+                        문제 보기
+                    </a>
+                </button>
+            </td>
+        </tr>
+    </table>
+    </div>
+</body>
+</html>
