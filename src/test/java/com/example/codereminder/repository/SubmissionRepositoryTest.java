@@ -74,20 +74,20 @@ class SubmissionRepositoryTest {
 
     @Test
     @DisplayName("id를 통해 마지막 제출 날짜를 업데이트한다.")
-    void updateLastAttemptDate() {
+    void updateLastAttemptTimestamp() {
         //given
-        Long beforeLastAttemptDate = submission.getLastAttemptDate();
+        Long beforeLastAttemptTimestamp = submission.getLastAttemptTimestamp();
 
         //when
-        submissionRepository.updateLastAttemptDate(SUBMISSION_ID, System.currentTimeMillis());
+        submissionRepository.updateLastAttemptTimestamp(SUBMISSION_ID, System.currentTimeMillis());
         Optional<Submission> optionalSubmission = submissionRepository.findByUserIdAndProblemId(submission.getUserId(), submission.getProblemId());
 
         assertThat(optionalSubmission).isPresent();
 
         Submission updatedSubmission = optionalSubmission.get();
-        Long afterLastAttemptDate = updatedSubmission.getLastAttemptDate();
+        Long afterLastAttemptTimestamp = updatedSubmission.getLastAttemptTimestamp();
 
         //then
-        assertThat(afterLastAttemptDate).isGreaterThan(beforeLastAttemptDate);
+        assertThat(afterLastAttemptTimestamp).isGreaterThan(beforeLastAttemptTimestamp);
     }
 }

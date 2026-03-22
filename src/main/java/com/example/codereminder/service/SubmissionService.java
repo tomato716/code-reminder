@@ -3,7 +3,6 @@ package com.example.codereminder.service;
 import com.example.codereminder.domain.Submission;
 import com.example.codereminder.dto.SubmissionDto;
 import com.example.codereminder.repository.SubmissionRepository;
-import com.example.codereminder.util.DateUtils;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +18,7 @@ public class SubmissionService {
 
     public void save(SubmissionDto dto) {
         Optional<Submission> findSubmission = submissionRepository.findByUserIdAndProblemId(dto.getUserId(), dto.getProblemId());
+        //복습날이니?
         if (findSubmission.isEmpty()) {
             saveNewSubmission(dto);
             return;
@@ -35,7 +35,7 @@ public class SubmissionService {
                 return;
             }
 
-            submissionRepository.updateLastAttemptDate(submission.getId(), dto.getTimestamp());
+            submissionRepository.updateLastAttemptTimestamp(submission.getId(), dto.getTimestamp());
             log.info("복습할 문제 다시 틀려서 db 갱신");
         }
     }

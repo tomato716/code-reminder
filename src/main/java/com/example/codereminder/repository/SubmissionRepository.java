@@ -20,7 +20,7 @@ public class SubmissionRepository {
     private final DataSource dataSource;
 
     public void save(Submission submission) {
-        String sql = "insert into submission(id, user_id, problem_id, result_text, timestamp, last_attempt_date) values(?, ?, ?, ?, ?, ?)";
+        String sql = "insert into submission(id, user_id, problem_id, result_text, timestamp, last_attempt_timestamp) values(?, ?, ?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -84,7 +84,7 @@ public class SubmissionRepository {
                         rs.getLong("problem_id"),
                         rs.getString("result_text"),
                         rs.getLong("timestamp"),
-                        rs.getLong("last_attempt_date"));
+                        rs.getLong("last_attempt_timestamp"));
 
                 return Optional.of(submission);
             }
@@ -96,8 +96,8 @@ public class SubmissionRepository {
         }
     }
 
-    public void updateLastAttemptDate(String id, Long timestamp) {
-        String sql = "update submission set last_attempt_date = ? where  id = ?";
+    public void updateLastAttemptTimestamp(String id, Long timestamp) {
+        String sql = "update submission set last_attempt_timestamp = ? where  id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;

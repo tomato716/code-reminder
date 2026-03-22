@@ -6,5 +6,5 @@ create table submission(
     problem_id bigint not null ,
     result_text varchar(255),
     timestamp bigint,
-    last_attempt_date bigint
+    last_attempt_timestamp bigint
 )

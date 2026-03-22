@@ -21,7 +21,7 @@ public class Submission {
     private final Long problemId;
     private final String resultText;
     private final Long timestamp;
-    private final Long lastAttemptDate;
+    private final Long lastAttemptTimestamp;
 
     public static Submission from(SubmissionDto dto) {
         return Submission.builder()
@@ -30,12 +30,12 @@ public class Submission {
                 .problemId(dto.getProblemId())
                 .resultText(dto.getResultText())
                 .timestamp(dto.getTimestamp())
-                .lastAttemptDate(dto.getTimestamp())
+                .lastAttemptTimestamp(dto.getTimestamp())
                 .build();
     }
 
-    public static Submission of(String id, String userId, Long problemId, String resultText, Long timestamp, Long lastAttemptDate) {
-        return new Submission(id, userId, problemId, resultText, timestamp, lastAttemptDate);
+    public static Submission of(String id, String userId, Long problemId, String resultText, Long timestamp, Long lastAttemptTimestamp) {
+        return new Submission(id, userId, problemId, resultText, timestamp, lastAttemptTimestamp);
     }
 
     public boolean isReviewDay(long dtoTimestamp) {

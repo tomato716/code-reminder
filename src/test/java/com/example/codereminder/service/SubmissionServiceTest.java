@@ -84,7 +84,7 @@ class SubmissionServiceTest {
         submissionService.save(unresolvedToday);
 
         //then
-        then(submissionRepository).should().updateLastAttemptDate(submission.getId(), unresolvedToday.getTimestamp());
+        then(submissionRepository).should().updateLastAttemptTimestamp(submission.getId(), unresolvedToday.getTimestamp());
     }
 
     @ParameterizedTest
@@ -127,7 +127,7 @@ class SubmissionServiceTest {
         submissionService.save(todaySubmission);
 
         //then
-        then(submissionRepository).should(never()).updateLastAttemptDate(submission.getId(), todaySubmission.getTimestamp());
+        then(submissionRepository).should(never()).updateLastAttemptTimestamp(submission.getId(), todaySubmission.getTimestamp());
         then(submissionRepository).should(never()).remove(submission.getId());
     }
 }
