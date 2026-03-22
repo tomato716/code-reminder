@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -25,22 +27,12 @@ public class SubmissionService {
     }
 
     private void handleReviewResult(ReviewItemDto dto, ReviewItem reviewItem) {
-        if (reviewItem.isReviewDay()) {
-            if (isSuccess(dto.getResultText())) {
+        if (reviewItem.isReviewDay(LocalDate.now())) {
+            if (isSuccess(dto.getResultText()) || !reviewItem.updateNextReviewDate()) {
                 repository.delete(reviewItem);
-                log.info("복습할 문제를 바로 맞춰서 db에서 제거: {}", dto.getProblemId());
+                log.info("복습할 문제 db에서 제거: {}", dto.getProblemId());
                 return;
             }
-
-            reviewItem.updateReviewLevel();
-
-            if (reviewItem.isLastReviewLevel()) {
-                repository.delete(reviewItem);
-                log.info("복습 21일차로 db에서 제거");
-                return;
-            }
-
-            reviewItem.updateNextReviewDate();
             reviewItem.updateLastAttemptTimestamp(dto.getTimestamp());
             log.info("복습할 문제 다시 틀려서 db 갱신");
         }

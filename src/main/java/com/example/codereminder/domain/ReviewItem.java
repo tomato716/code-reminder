@@ -41,40 +41,33 @@ public class ReviewItem {
                 .timestamp(dto.getTimestamp())
                 .lastAttemptTimestamp(dto.getTimestamp())
                 .reviewLevel(1)
-                .nextReviewDate(DateUtils.toLocalDate(dto.getTimestamp()).plusDays(1))
+                .nextReviewDate(LocalDate.now().plusDays(1))
                 .build();
     }
 
     public boolean isReviewDay(LocalDate date) {
         return nextReviewDate.isEqual(date);
-//        LocalDate submittedDate = DateUtils.toLocalDate(timestamp);
-//        LocalDate today = DateUtils.toLocalDate(dtoTimestamp);
-//
-//        return REVIEW_CYCLE.contains(ChronoUnit.DAYS.between(submittedDate, today));
     }
 
     public void updateIfOverReviewDate(LocalDate date) {
         if (date.isAfter(nextReviewDate)) {
-            nextReviewDate = LocalDate.now();
+            nextReviewDate = date;
         }
     }
 
-    public void updateNextReviewDate() {
+    public boolean updateNextReviewDate() {
+        reviewLevel++;
+
         if(reviewLevel < REVIEW_CYCLE.size()) {
             nextReviewDate = nextReviewDate.plusDays(REVIEW_CYCLE.get(reviewLevel));
+            return true;
         }
+
+        return false;
     }
 
     public void updateLastAttemptTimestamp(Long timestampOfSubmissionDto) {
         lastAttemptTimestamp = timestampOfSubmissionDto;
-    }
-
-    public void updateReviewLevel() {
-        reviewLevel++;
-    }
-
-    public boolean isLastReviewLevel() {
-        return reviewLevel >= REVIEW_CYCLE.size();
     }
 
     public boolean isCompletedReview(LocalDate today) {
