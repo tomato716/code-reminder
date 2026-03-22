@@ -17,7 +17,7 @@ public class Submission {
     private static final List<Long> REVIEW_CYCLE = List.of(1L, 3L, 7L, 21L);
 
     private final String id;
-    private final String userId;
+    private final String userName;
     private final Long problemId;
     private final String resultText;
     private final Long timestamp;
@@ -26,7 +26,7 @@ public class Submission {
     public static Submission from(SubmissionDto dto) {
         return Submission.builder()
                 .id(UUID.randomUUID().toString())
-                .userId(dto.getUserId())
+                .userName(dto.getUserName())
                 .problemId(dto.getProblemId())
                 .resultText(dto.getResultText())
                 .timestamp(dto.getTimestamp())
@@ -34,8 +34,8 @@ public class Submission {
                 .build();
     }
 
-    public static Submission of(String id, String userId, Long problemId, String resultText, Long timestamp, Long lastAttemptTimestamp) {
-        return new Submission(id, userId, problemId, resultText, timestamp, lastAttemptTimestamp);
+    public static Submission of(String id, String userName, Long problemId, String resultText, Long timestamp, Long lastAttemptTimestamp) {
+        return new Submission(id, userName, problemId, resultText, timestamp, lastAttemptTimestamp);
     }
 
     public boolean isReviewDay(long dtoTimestamp) {

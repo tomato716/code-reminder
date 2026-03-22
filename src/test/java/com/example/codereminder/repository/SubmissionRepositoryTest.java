@@ -43,9 +43,9 @@ class SubmissionRepositoryTest {
 
     @Test
     @DisplayName("유저 아이디와 문제 번호로 엔티티를 찾는다.")
-    void findByUserIdAndProblemId_Success() {
+    void findByUserNameAndProblemId_Success() {
         //when
-        Optional<Submission> optionalSubmission = submissionRepository.findByUserIdAndProblemId(submission.getUserId(), submission.getProblemId());
+        Optional<Submission> optionalSubmission = submissionRepository.findByUserNameAndProblemId(submission.getUserName(), submission.getProblemId());
 
         //then
         assertThat(optionalSubmission).isPresent();
@@ -53,9 +53,9 @@ class SubmissionRepositoryTest {
 
     @Test
     @DisplayName("유저 아이디와 문제 번호로 찾은 엔티티가 없으면 빈 Optional을 반환한다.")
-    void findByUserIdAndProblemId_Failure() {
+    void findByUserNameAndProblemId_Failure() {
         //when
-        Optional<Submission> optionalSubmission = submissionRepository.findByUserIdAndProblemId("임의의_유저_아이디", 11111L);
+        Optional<Submission> optionalSubmission = submissionRepository.findByUserNameAndProblemId("임의의_유저_아이디", 11111L);
 
         //then
         assertThat(optionalSubmission).isEmpty();
@@ -66,7 +66,7 @@ class SubmissionRepositoryTest {
     void remove() {
         //when
         submissionRepository.remove(SUBMISSION_ID);
-        Optional<Submission> optionalSubmission = submissionRepository.findByUserIdAndProblemId(submission.getUserId(), submission.getProblemId());
+        Optional<Submission> optionalSubmission = submissionRepository.findByUserNameAndProblemId(submission.getUserName(), submission.getProblemId());
 
         //then
         assertThat(optionalSubmission).isEmpty();
@@ -80,7 +80,7 @@ class SubmissionRepositoryTest {
 
         //when
         submissionRepository.updateLastAttemptTimestamp(SUBMISSION_ID, System.currentTimeMillis());
-        Optional<Submission> optionalSubmission = submissionRepository.findByUserIdAndProblemId(submission.getUserId(), submission.getProblemId());
+        Optional<Submission> optionalSubmission = submissionRepository.findByUserNameAndProblemId(submission.getUserName(), submission.getProblemId());
 
         assertThat(optionalSubmission).isPresent();
 

@@ -40,7 +40,7 @@ class SubmissionServiceTest {
         SubmissionDto unresolvedDto = new SubmissionDto("park", 2000L, "틀렸습니다", timestamp);
 
 
-        given(submissionRepository.findByUserIdAndProblemId(unresolvedDto.getUserId(), unresolvedDto.getProblemId()))
+        given(submissionRepository.findByUserNameAndProblemId(unresolvedDto.getUserName(), unresolvedDto.getProblemId()))
                 .willReturn(Optional.empty());
 
         //when
@@ -58,7 +58,7 @@ class SubmissionServiceTest {
 
         SubmissionDto solvedDto = new SubmissionDto("park", 2000L, "맞았습니다!!", timestamp);
 
-        given(submissionRepository.findByUserIdAndProblemId(solvedDto.getUserId(), solvedDto.getProblemId()))
+        given(submissionRepository.findByUserNameAndProblemId(solvedDto.getUserName(), solvedDto.getProblemId()))
                 .willReturn(Optional.empty());
 
         //when
@@ -77,7 +77,7 @@ class SubmissionServiceTest {
 
         Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
         Submission submission = Submission.of("1","park",2000L,"틀렸습니다", reviewDay, reviewDay);
-        given(submissionRepository.findByUserIdAndProblemId(unresolvedToday.getUserId(), unresolvedToday.getProblemId()))
+        given(submissionRepository.findByUserNameAndProblemId(unresolvedToday.getUserName(), unresolvedToday.getProblemId()))
                 .willReturn(Optional.of(submission));
 
         //when
@@ -96,7 +96,7 @@ class SubmissionServiceTest {
 
         Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
         Submission submission = Submission.of("1", "park", 2000L, "틀렸습니다", reviewDay, reviewDay);
-        given(submissionRepository.findByUserIdAndProblemId(solvedToday.getUserId(), solvedToday.getProblemId()))
+        given(submissionRepository.findByUserNameAndProblemId(solvedToday.getUserName(), solvedToday.getProblemId()))
                 .willReturn(Optional.of(submission));
 
         //when
@@ -120,7 +120,7 @@ class SubmissionServiceTest {
 
         Long reviewDay = DateUtils.toTimestamp(LocalDate.now().minusDays(date));
         Submission submission = Submission.of("1", "park", 2000L, "틀렸습니다", reviewDay, reviewDay);
-        given(submissionRepository.findByUserIdAndProblemId(todaySubmission.getUserId(), todaySubmission.getProblemId()))
+        given(submissionRepository.findByUserNameAndProblemId(todaySubmission.getUserName(), todaySubmission.getProblemId()))
                 .willReturn(Optional.of(submission));
 
         //when

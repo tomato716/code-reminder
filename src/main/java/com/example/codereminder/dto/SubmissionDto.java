@@ -11,7 +11,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class SubmissionDto {
     @NotBlank
-    private final String userId;
+    private final String userName;
     @NotNull
     private final Long problemId;
     @NotBlank

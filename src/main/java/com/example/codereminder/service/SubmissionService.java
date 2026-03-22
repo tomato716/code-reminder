@@ -17,7 +17,7 @@ public class SubmissionService {
     private final SubmissionRepository submissionRepository;
 
     public void save(SubmissionDto dto) {
-        Optional<Submission> findSubmission = submissionRepository.findByUserIdAndProblemId(dto.getUserId(), dto.getProblemId());
+        Optional<Submission> findSubmission = submissionRepository.findByUserNameAndProblemId(dto.getUserName(), dto.getProblemId());
         //복습날이니?
         if (findSubmission.isEmpty()) {
             saveNewSubmission(dto);

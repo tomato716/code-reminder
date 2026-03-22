@@ -30,7 +30,7 @@ public class SubmissionRepository {
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, submission.getId());
-            pstmt.setString(2, submission.getUserId());
+            pstmt.setString(2, submission.getUserName());
             pstmt.setLong(3, submission.getProblemId());
             pstmt.setString(4, submission.getResultText());
             pstmt.setLong(5, submission.getTimestamp());
@@ -63,8 +63,8 @@ public class SubmissionRepository {
         }
     }
 
-    public Optional<Submission> findByUserIdAndProblemId(@NotBlank String userId, @NotNull Long problemId) {
-        String sql = "select * from submission where user_id = ? and problem_id = ?";
+    public Optional<Submission> findByUserNameAndProblemId(@NotBlank String userName, @NotNull Long problemId) {
+        String sql = "select * from submission where user_name = ? and problem_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -73,7 +73,7 @@ public class SubmissionRepository {
         try {
             conn = dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, userId);
+            pstmt.setString(1, userName);
             pstmt.setLong(2, problemId);
 
             rs = pstmt.executeQuery();

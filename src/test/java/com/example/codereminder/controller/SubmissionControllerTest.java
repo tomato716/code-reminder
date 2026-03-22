@@ -36,7 +36,7 @@ class SubmissionControllerTest {
     private SubmissionService submissionService;
 
     @Test
-    @DisplayName("userId, problemId, resultText, timestamp 값이 모두 있으면 상태 200을 반환한다.")
+    @DisplayName("userName, problemId, resultText, timestamp 값이 모두 있으면 상태 200을 반환한다.")
     void saveSubmission_Success() throws Exception {
         //given
         SubmissionDto submissionDto = new SubmissionDto(
@@ -61,7 +61,7 @@ class SubmissionControllerTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidDto")
-    @DisplayName("userId, problemId, resultText, timestamp 중 하나라도 없으면 상태 400을 반환한다.")
+    @DisplayName("userName, problemId, resultText, timestamp 중 하나라도 없으면 상태 400을 반환한다.")
     void saveSubmission_Failure(SubmissionDto submissionDto) throws Exception {
         //given
         String json = objectMapper.writeValueAsString(submissionDto);
