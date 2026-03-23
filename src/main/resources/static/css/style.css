@@ -26,8 +26,8 @@ body {
 
 /* 3. 제목 영역 폰트 키우기 */
 h1 {
-    font-size: 56px; /* 아주 크게! */
-    margin-bottom: 15px;
+    font-size: 56px;
+    margin: 0;
 }
 
 h2 {
@@ -113,6 +113,27 @@ button a {
     color: #007bff;
 }
 
-body * {
-    font-family: "NanumPenScript";
+/* 서비스 명칭 (로고) 스타일 */
+.brand-logo {
+    letter-spacing: 2px;
+    font-weight: bold;
+    color: #6c757d;
+    text-transform: uppercase;
+    /* 추가 */
+    display: inline-block;
+    min-width: fit-content;
+}
+
+/* 제목과 로고를 가로로 배치하기 위한 커스텀 클래스 */
+.header-wrapper {
+    display: flex;
+    justify-content: space-between; /* 왼쪽 끝, 오른쪽 끝 배치 */
+    align-items: baseline;        /* 글자 아랫선 맞춤 */
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+/* 제목 영역 정렬 (h1, h2가 왼쪽으로 오도록) */
+.title-area {
+    text-align: left;
 }

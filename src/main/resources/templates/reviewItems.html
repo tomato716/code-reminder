@@ -7,11 +7,13 @@
 </head>
 <body>
 <div class="container">
-
-    <div class="py-5 text-center">
-        <h1 th:text="|${userName}님의 오늘 복습해야 할 문제 목록|">복습해야 할 문제 목록</h1>
-        <h2 th:text="|오늘 날짜: ${today}|">오늘 날짜: 0000-00-00</h2>
+    <div class="header-wrapper">
+        <div class="title-area">
+            <h1 th:text="|${userName}님이 오늘 복습해야 할 문제 목록|">복습해야 할 문제 목록</h1>
+        </div>
+        <p class="brand-logo">CODE REMINDER</p>
     </div>
+    <h2 th:text="|오늘 날짜: ${today}|">오늘 날짜: 0000-00-00</h2>
     <div class="table-wrapper">
         <table class="table text-center align-middle">
             <thead class="table-primary text-center">
@@ -23,9 +25,9 @@
                 <th>바로가기</th>
             </tr>
             </thead>
-
+            <tbody>
             <tr th:each="item, stat : ${reviewItems}"
-                th:classappend="${item.isCompletedReview(today)} ? 'table-success' : ''"
+                th:classappend="${item.isCompletedReview(today)} ? 'table-danger' : ''"
                 class="text-center">
                 <td th:text="${stat.count}">count</td>
                 <td th:text="${item.userName}">username</td>
@@ -47,6 +49,7 @@
                     </button>
                 </td>
             </tr>
+            </tbody>
         </table>
     </div>
 </div>
