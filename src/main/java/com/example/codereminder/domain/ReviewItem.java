@@ -70,7 +70,7 @@ public class ReviewItem {
         lastAttemptTimestamp = timestampOfSubmissionDto;
     }
 
-    public boolean isCompletedReview(LocalDate today) {
-        return DateUtils.toLocalDate(lastAttemptTimestamp) == today;
+    public boolean isCompletedReview(LocalDate date) {
+        return DateUtils.toLocalDate(lastAttemptTimestamp).isEqual(date);
     }
 }

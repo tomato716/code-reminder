@@ -119,12 +119,6 @@ class ReviewItemTest {
         Long nowTimestamp = DateUtils.toTimestamp(today);
         reviewItem.updateLastAttemptTimestamp(nowTimestamp);
 
-        System.out.println("nowTimestamp = " + nowTimestamp);
-        Long lastAttemptTimestamp = reviewItem.getLastAttemptTimestamp();
-
-        System.out.println("lastAttemptDate = " + DateUtils.toLocalDate(lastAttemptTimestamp));
-
-        System.out.println("today = " + today);
         //when
         boolean result = reviewItem.isCompletedReview(today);
 
