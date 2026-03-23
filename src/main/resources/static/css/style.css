@@ -84,11 +84,10 @@ h2 {
     font-weight: bold;
 }
 
-/* 완료된 항목 초록색 */
-.table-success {
-    background-color: #d4edda !important;
+/* 복습 완료(틀림) 항목 붉은색 */
+.table-danger {
+    background-color: #f8d7da !important;
 }
-
 /* 6. 버튼 커스텀 */
 button {
     cursor: pointer;
