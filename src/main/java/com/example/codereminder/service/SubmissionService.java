@@ -3,6 +3,7 @@ package com.example.codereminder.service;
 import com.example.codereminder.domain.ReviewItem;
 import com.example.codereminder.dto.ReviewItemDto;
 import com.example.codereminder.repository.ReviewItemRepository;
+import com.example.codereminder.util.DateUtils;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +42,8 @@ public class SubmissionService {
     private void saveNewSubmission(ReviewItemDto dto) {
         if (!isSuccess(dto.getResultText())) {
             ReviewItem newReviewItem = ReviewItem.from(dto);
-            ReviewItem savedReviewItem = repository.save(newReviewItem);
-            log.info("{}님의 DB에 틀린 문제를 저장: {}", savedReviewItem.getUserName(), savedReviewItem.getProblemId());
+            repository.save(newReviewItem);
+            log.info("{}님의 DB에 틀린 문제를 저장: {}", newReviewItem.getUserName(), newReviewItem.getProblemId());
         }
     }
 
