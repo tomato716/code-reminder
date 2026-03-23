@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Reminder</title>
+    <link th:href="@{/css/style.css}" href="../static/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="header-wrapper">
+        <div class="title-area">
+            <h1 th:text="|${userName}님이 오늘 복습해야 할 문제 목록|">복습해야 할 문제 목록</h1>
+        </div>
+        <p class="brand-logo">CODE REMINDER</p>
+    </div>
+    <h2 th:text="|오늘 날짜: ${today}|">오늘 날짜: 0000-00-00</h2>
+    <div class="table-wrapper">
+        <table class="table text-center align-middle">
+            <thead class="table-primary text-center">
+            <tr>
+                <th>번호</th>
+                <th>유저명</th>
+                <th>문제 번호</th>
+                <th>복습 결과</th>
+                <th>바로가기</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item, stat : ${reviewItems}"
+                th:classappend="${item.isCompletedReview(today)} ? 'table-danger' : ''"
+                class="text-center">
+                <td th:text="${stat.count}">count</td>
+                <td th:text="${item.userName}">username</td>
+                <td>
+                    <a class="problem-link"
+                       th:href="@{|https://www.acmicpc.net/problem/${item.problemId}|}"
+                       th:text="${item.problemId}"
+                       target="_blank">problemId</a>
+                </td>
+                <td th:text="${item.isCompletedReview(today)} ? ${item.resultText} : '아직 복습 X'">
+                    복습 결과
+                </td>
+                <td>
+                    <button>
+                        <a th:href="@{|https://www.acmicpc.net/problem/${item.problemId}|}"
+                           href="https://www.acmicpc.net/problem/1000">
+                            문제 보기
+                        </a>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
