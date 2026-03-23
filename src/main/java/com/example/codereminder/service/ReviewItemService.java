@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -64,5 +65,10 @@ public class ReviewItemService {
         });
 
         log.info("총 {}건의 데이터가 갱신되었습니다.", submissionsToUpdate.size());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewItem> getReviewItems(String userName, LocalDate date) {
+        return repository.findByUserNameAndNextReviewDate(userName, date);
     }
 }

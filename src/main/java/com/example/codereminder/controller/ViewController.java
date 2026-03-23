@@ -1,9 +1,8 @@
 package com.example.codereminder.controller;
 
 import com.example.codereminder.domain.ReviewItem;
-import com.example.codereminder.repository.ReviewItemRepository;
+import com.example.codereminder.service.ReviewItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +14,11 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class ViewController {
-    private final ReviewItemRepository repository;
+    private final ReviewItemService service;
 
     @GetMapping("/reviews/{userName}")
     public String showReviews(@PathVariable String userName, Model model) {
-        List<ReviewItem> reviewItems = repository.findByUserNameAndNextReviewDate(userName, LocalDate.now());
+        List<ReviewItem> reviewItems = service.getReviewItems(userName, LocalDate.now());
         model.addAttribute("reviewItems", reviewItems);
         model.addAttribute("userName", userName);
 
