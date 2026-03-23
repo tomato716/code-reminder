@@ -54,7 +54,7 @@ class ReviewItemTest {
 
     @Test
     @DisplayName("복습 날짜보다 이후의 날짜라면 갱신한다")
-    void updateIfOverReviewDate_Success(){
+    void updateIfOverReviewDate_Success() {
         //given
         LocalDate beforeNextReviewDate = reviewItem.getNextReviewDate();
 
@@ -69,7 +69,7 @@ class ReviewItemTest {
 
     @Test
     @DisplayName("복습 날짜보다 이전의 날짜라면 갱신하지 않는다")
-    void updateIfOverReviewDate_Failure(){
+    void updateIfOverReviewDate_Failure() {
         //given
         LocalDate beforeNextReviewDate = reviewItem.getNextReviewDate();
 
@@ -89,7 +89,7 @@ class ReviewItemTest {
         assertThat(reviewItem.updateNextReviewDate()).isTrue();
 
         //when
-        for(int i=0; i<3; i++){
+        for (int i = 0; i < 3; i++) {
             reviewItem.updateNextReviewDate();
         }
 
