@@ -66,8 +66,8 @@ public class ReviewItem {
         return false;
     }
 
-    public void updateLastAttemptTimestamp(Long timestampOfSubmissionDto) {
-        lastAttemptTimestamp = timestampOfSubmissionDto;
+    public void updateLastAttemptTimestamp(Long timestampOfReviewItemDto) {
+        lastAttemptTimestamp = timestampOfReviewItemDto;
     }
 
     public boolean isCompletedReview(LocalDate date) {

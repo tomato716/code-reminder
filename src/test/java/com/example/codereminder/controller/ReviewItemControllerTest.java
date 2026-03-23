@@ -1,7 +1,7 @@
 package com.example.codereminder.controller;
 
 import com.example.codereminder.dto.ReviewItemDto;
-import com.example.codereminder.service.SubmissionService;
+import com.example.codereminder.service.ReviewItemService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(SubmissionController.class)
+@WebMvcTest(ReviewItemController.class)
 class ReviewItemControllerTest {
 
     @Autowired
@@ -33,7 +33,7 @@ class ReviewItemControllerTest {
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    private SubmissionService submissionService;
+    private ReviewItemService reviewItemService;
 
     @Test
     @DisplayName("userName, problemId, resultText, timestamp 값이 모두 있으면 상태 200을 반환한다.")
@@ -56,7 +56,7 @@ class ReviewItemControllerTest {
                 .andExpect(content().string("ok"));
 
         //then
-        then(submissionService).should().save(any(ReviewItemDto.class));
+        then(reviewItemService).should().save(any(ReviewItemDto.class));
     }
 
     @ParameterizedTest
@@ -74,7 +74,7 @@ class ReviewItemControllerTest {
                 .andExpect(status().isBadRequest());
 
         //then
-        then(submissionService).should(never()).save(any(ReviewItemDto.class));
+        then(reviewItemService).should(never()).save(any(ReviewItemDto.class));
     }
 
     private static Stream<Arguments> provideInvalidDto() {

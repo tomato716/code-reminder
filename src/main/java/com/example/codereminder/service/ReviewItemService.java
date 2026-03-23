@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class SubmissionService {
+public class ReviewItemService {
     private final ReviewItemRepository repository;
 
     public void save(ReviewItemDto dto) {
@@ -28,9 +28,9 @@ public class SubmissionService {
     }
 
     private void handleReviewResult(ReviewItemDto dto, ReviewItem reviewItem) {
-        LocalDate dtoSubmissionDate = DateUtils.toLocalDate(dto.getTimestamp());
+        LocalDate dateOfReviewItemDto = DateUtils.toLocalDate(dto.getTimestamp());
 
-        if (reviewItem.isReviewDay(dtoSubmissionDate)) {
+        if (reviewItem.isReviewDay(dateOfReviewItemDto)) {
             if (isSuccess(dto.getResultText()) || !reviewItem.updateNextReviewDate()) {
                 repository.delete(reviewItem);
                 log.info("복습할 문제 db에서 제거: {}", dto.getProblemId());

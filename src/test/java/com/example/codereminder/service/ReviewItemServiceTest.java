@@ -31,7 +31,7 @@ class ReviewItemServiceTest {
     private ReviewItemRepository repository;
 
     @InjectMocks
-    private SubmissionService submissionService;
+    private ReviewItemService reviewItemService;
     private ReviewItem reviewItem;
 
     @BeforeEach
@@ -60,7 +60,7 @@ class ReviewItemServiceTest {
                 .willReturn(Optional.empty());
 
         //when
-        submissionService.save(unresolvedDto);
+        reviewItemService.save(unresolvedDto);
 
         //then
         then(repository).should().save(any(ReviewItem.class));
@@ -78,7 +78,7 @@ class ReviewItemServiceTest {
                 .willReturn(Optional.empty());
 
         //when
-        submissionService.save(solvedDto);
+        reviewItemService.save(solvedDto);
 
         //then
         then(repository).should(never()).save(any(ReviewItem.class));
@@ -103,7 +103,7 @@ class ReviewItemServiceTest {
                 .willReturn(Optional.of(reviewItem));
 
         //when
-        submissionService.save(unresolvedToday);
+        reviewItemService.save(unresolvedToday);
 
         //then
         assertAll(
@@ -130,7 +130,7 @@ class ReviewItemServiceTest {
                 .willReturn(Optional.of(reviewItem));
 
         //when
-        submissionService.save(solvedToday);
+        reviewItemService.save(solvedToday);
 
         //then
         then(repository).should().delete(reviewItem);
@@ -159,7 +159,7 @@ class ReviewItemServiceTest {
                 .willReturn(Optional.of(reviewItem));
 
         //when
-        submissionService.save(todaySubmission);
+        reviewItemService.save(todaySubmission);
 
         //then
         assertAll(
@@ -191,7 +191,7 @@ class ReviewItemServiceTest {
 
 
         //when
-        submissionService.save(todaySubmission);
+        reviewItemService.save(todaySubmission);
 
         //then
         then(repository).should().delete(reviewItem);
