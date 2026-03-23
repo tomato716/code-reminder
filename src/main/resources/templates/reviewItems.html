@@ -9,7 +9,7 @@
 <div class="container">
 
     <div class="py-5 text-center">
-        <h1 th:text="|${userName}님의 오늘 복습 문제|">복습해야 할 문제 목록</h1>
+        <h1 th:text="|${userName}님의 오늘 복습해야 할 문제 목록|">복습해야 할 문제 목록</h1>
         <h2 th:text="|오늘 날짜: ${today}|">오늘 날짜: 0000-00-00</h2>
     </div>
     <div class="table-wrapper">
@@ -19,6 +19,7 @@
                 <th>번호</th>
                 <th>유저명</th>
                 <th>문제 번호</th>
+                <th>복습 결과</th>
                 <th>바로가기</th>
             </tr>
             </thead>
@@ -33,6 +34,9 @@
                        th:href="@{|https://www.acmicpc.net/problem/${item.problemId}|}"
                        th:text="${item.problemId}"
                        target="_blank">problemId</a>
+                </td>
+                <td th:text="${item.isCompletedReview(today)} ? ${item.resultText} : '아직 복습 X'">
+                    복습 결과
                 </td>
                 <td>
                     <button>
