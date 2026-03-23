@@ -52,4 +52,17 @@ public class ReviewItemService {
     private boolean isSuccess(@NotBlank String resultText) {
         return resultText.contains("맞았습니다");
     }
+
+    public void updateOverReviewDate() {
+        log.info("리뷰 날짜 초과 데이터 자동 갱신");
+
+        LocalDate today = LocalDate.now();
+        List<ReviewItem> submissionsToUpdate = repository.findAllByNextReviewDateBefore(today);
+        submissionsToUpdate.forEach(submission -> {
+            submission.updateIfOverReviewDate(today);
+            log.info("자동 갱신 대상: 유저={}, 문제={}", submission.getUserName(), submission.getProblemId());
+        });
+
+        log.info("총 {}건의 데이터가 갱신되었습니다.", submissionsToUpdate.size());
+    }
 }
