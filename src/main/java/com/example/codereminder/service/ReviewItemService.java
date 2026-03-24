@@ -34,11 +34,11 @@ public class ReviewItemService {
         if (reviewItem.isReviewDay(dateOfReviewItemDto)) {
             if (isSuccess(dto.getResultText()) || !reviewItem.updateNextReviewDate()) {
                 repository.delete(reviewItem);
-                log.info("복습할 문제 db에서 제거: {}", dto.getProblemId());
+                log.debug("복습할 문제 db에서 제거: {}", dto.getProblemId());
                 return;
             }
             reviewItem.updateLastAttemptTimestamp(dto.getTimestamp());
-            log.info("복습할 문제 다시 틀려서 db 갱신");
+            log.debug("복습할 문제 다시 틀려서 db 갱신");
         }
     }
 
@@ -46,7 +46,7 @@ public class ReviewItemService {
         if (!isSuccess(dto.getResultText())) {
             ReviewItem newReviewItem = ReviewItem.from(dto);
             repository.save(newReviewItem);
-            log.info("{}님의 DB에 틀린 문제를 저장: {}", newReviewItem.getUserName(), newReviewItem.getProblemId());
+            log.debug("{}님의 DB에 틀린 문제를 저장: {}", newReviewItem.getUserName(), newReviewItem.getProblemId());
         }
     }
 
@@ -55,16 +55,16 @@ public class ReviewItemService {
     }
 
     public void updateOverReviewDate() {
-        log.info("리뷰 날짜 초과 데이터 자동 갱신");
+        log.debug("리뷰 날짜 초과 데이터 자동 갱신");
 
         LocalDate today = LocalDate.now();
         List<ReviewItem> submissionsToUpdate = repository.findAllByNextReviewDateBefore(today);
         submissionsToUpdate.forEach(submission -> {
             submission.updateIfOverReviewDate(today);
-            log.info("자동 갱신 대상: 유저={}, 문제={}", submission.getUserName(), submission.getProblemId());
+            log.debug("자동 갱신 대상: 유저={}, 문제={}", submission.getUserName(), submission.getProblemId());
         });
 
-        log.info("총 {}건의 데이터가 갱신되었습니다.", submissionsToUpdate.size());
+        log.debug("총 {}건의 데이터가 갱신되었습니다.", submissionsToUpdate.size());
     }
 
     @Transactional(readOnly = true)
