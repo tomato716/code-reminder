@@ -13,7 +13,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.storage.local.set({ userName: request.data.userName });
 
     // 백엔드의 POST 저장 API 호출
-    fetch("http://localhost:8080/api/review-item", {
+    fetch("https://code-reminder.duckdns.org/api/review-item", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(request.data),
@@ -58,7 +58,7 @@ async function checkAndNotify() {
 
   try {
     const response = await fetch(
-      `http://localhost:8080/api/review-item/${storageData.userName}/today-count`,
+      `https://code-reminder.duckdns.org/api/review-item/${storageData.userName}/today-count`,
     );
     const result = await response.json();
     const count = result["today-count"];
@@ -88,7 +88,7 @@ chrome.notifications.onButtonClicked.addListener(
     if (buttonIndex === 0) {
       // 첫 번째 버튼(복습하러 가기)을 눌렀을 때
       chrome.storage.local.get("userName", (data) => {
-        const reviewUrl = `http://localhost:8080/reviews/${data.userName}`;
+        const reviewUrl = `https://code-reminder.duckdns.org/reviews/${data.userName}`;
         chrome.tabs.create({ url: reviewUrl });
       });
     }

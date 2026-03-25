@@ -15,6 +15,7 @@ body {
 
 /* 2. 메인 컨테이너 */
 .container {
+    min-height: 500px;
     max-width: 1000px;
     width: 95%;
     margin: 60px auto;
@@ -39,10 +40,19 @@ h2 {
 .table-wrapper {
     background-color: #ffffff;
     border-radius: 15px; /* 🔥 테이블 전체 모서리를 둥글게! */
-    overflow: hidden; /* 🔥 중요: 내부 셀이 튀어나오지 않게 깎아냄 */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* 테이블 자체에도 은은한 그림자 */
     margin: 0 auto; /* 중앙 정렬 */
     width: 100%;
+    overflow-y: auto;   /* 🔥 데이터가 많아지면 세로 스크롤 생성 */
+    max-height: 600px;  /* 🔥 표의 최대 높이 고정 (원하는 만큼 조절) */
+}
+
+.table-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+    background-color: #dee2e6;
+    border-radius: 10px;
 }
 
 /* 4. 테이블 중앙 정렬 및 폰트 설정 */
@@ -136,4 +146,67 @@ button a {
 /* 제목 영역 정렬 (h1, h2가 왼쪽으로 오도록) */
 .title-area {
     text-align: left;
+}
+
+/* 검색 폼: 시원하고 큼지막하게 */
+.search-form {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 3px solid #007bff;
+    border-radius: 50px;
+    /*padding: 5px 20px;*/
+    padding: 5px 50px;
+    width: 100%;
+    max-width: 800px; /* 아주 길고 시원하게 조절 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: 0.3s;
+}
+
+/* 2. 🔥 티가 확 나게! 포커스 시 효과 강화 🔥 */
+.search-form:focus-within {
+    border-color: #007bff; /* 테두리를 진한 파란색으로 변경 */
+    box-shadow: 0 8px 30px rgba(0, 123, 255, 0.25); /* 그림자를 더 크고 짙게! (농도 15% -> 25%) */
+    transform: translateY(-2px); /* 검색창이 살짝 위로 떠오르는 느낌 추가 */
+}
+/* 입력창 (기존 나눔펜 폰트 활용) */
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 15px;
+    font-family: "NanumPenScript", sans-serif;
+    font-size: 32px; /* 큼지막한 글씨 */
+    background: transparent;
+}
+
+.search-input::placeholder {
+    color: #adb5bd;
+}
+
+/* 검색 버튼 (기존 버튼 스타일 계승) */
+.search-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 30px;
+    font-size: 24px;
+    font-family: "NanumPenScript", sans-serif;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+
+
+/* 웹 접근성 라벨 숨기기 */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }
