@@ -13,7 +13,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/review-item")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {
+        "https://code-reminder.duckdns.org",
+        "https://www.acmicpc.net",
+        "http://localhost:8080"
+})
 @Slf4j
 @RequiredArgsConstructor
 public class ReviewItemController {
@@ -21,7 +25,7 @@ public class ReviewItemController {
     private final ReviewItemService reviewItemService;
 
     @PostMapping
-    public String saveSubmission(@Validated @RequestBody ReviewItemDto dto){
+    public String saveSubmission(@Validated @RequestBody ReviewItemDto dto) {
         log.debug("도착 데이터={}", dto);
         reviewItemService.save(dto);
 
