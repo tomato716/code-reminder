@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Reminder</title>
+    <link th:href="@{/css/style.css}" href="../static/css/style.css" rel="stylesheet">
+</head>
+<body class="home-body">
+<div class="container">
+    <div class="header-wrapper">
+        <div class="title-area">
+                <form class="search-form" th:action="@{/}" method="post">
+                    <label for="userName" class="visually-hidden">사용자명</label>
+                    <input type="text" class="search-input"
+                           id="userName" name="userName"
+                           placeholder="사용자명을 입력하세요" required autofocus>
+                    <button type="submit" class="search-btn">검색</button>
+                </form>
+            </div>
+        <p class="brand-logo">CODE REMINDER</p>
+    </div>
+    <h2 th:text="|오늘 날짜: ${today}|">오늘 날짜: 0000-00-00</h2>
+</div>
+</body>
+</html>

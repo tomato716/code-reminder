@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,5 +28,16 @@ public class ViewController {
         model.addAttribute("today", today);
 
         return "reviewItems";
+    }
+
+    @GetMapping("/")
+    public String showHome(Model model) {
+        model.addAttribute("today", LocalDate.now());
+        return "home";
+    }
+
+    @PostMapping("/")
+    public String search(@RequestParam String userName) {
+        return "redirect:/reviews/" + userName;
     }
 }
