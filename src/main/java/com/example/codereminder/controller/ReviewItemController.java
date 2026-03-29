@@ -14,9 +14,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/review-item")
 @CrossOrigin(origins = {
-        "https://code-reminder.duckdns.org",
-        "https://www.acmicpc.net",
-        "http://localhost:8080"
+        "http://localhost:8080",
+        "chrome-extension://nmdagcbolemlnphofhneamfmnkkckmjm"
 })
 @Slf4j
 @RequiredArgsConstructor
