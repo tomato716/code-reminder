@@ -20,12 +20,11 @@ public class ViewController {
 
     @GetMapping("/reviews/{userName}")
     public String showReviews(@PathVariable String userName, Model model) {
-        List<ReviewItem> reviewItems = service.getReviewItems(userName, LocalDate.now());
+        List<ReviewItem> reviewItems = service.getReviewItems(userName);
         model.addAttribute("reviewItems", reviewItems);
         model.addAttribute("userName", userName);
 
-        LocalDate today = LocalDate.now();
-        model.addAttribute("today", today);
+        model.addAttribute("today", LocalDate.now());
 
         return "reviewItems";
     }
