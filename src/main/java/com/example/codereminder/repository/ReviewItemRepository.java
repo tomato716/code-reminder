@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface ReviewItemRepository extends JpaRepository<ReviewItem, String> {
 
     Optional<ReviewItem> findByUserNameAndProblemId(String userName, Long problemId);
-    List<ReviewItem> findByUserNameAndNextReviewDate(String userName, LocalDate nextReviewDate);
+    List<ReviewItem> findByUserNameOrderByNextReviewDate(String userName);
     List<ReviewItem> findAllByNextReviewDateBefore(LocalDate today);
 }

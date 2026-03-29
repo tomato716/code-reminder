@@ -34,7 +34,7 @@ public class ReviewItemController {
 
     @GetMapping("/{userName}/today-count")
     public ResponseEntity<Map<String, Integer>> getTodayReviewCount(@PathVariable String userName) {
-        int count = reviewItemService.getReviewItems(userName, LocalDate.now()).size();
+        int count = reviewItemService.getReviewItems(userName).size();
         log.debug("{}님의 오늘 복습할 문제 개수: {}", userName, count);
 
         return ResponseEntity.ok(Map.of("today-count", count));

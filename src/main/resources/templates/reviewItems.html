@@ -10,7 +10,7 @@
 <div class="container">
     <div class="header-wrapper">
         <div class="title-area">
-            <h1 th:text="|${userName}님이 오늘 복습해야 할 문제 목록|">복습해야 할 문제 목록</h1>
+            <h1 th:text="|${userName}님의 복습해야 할 문제 목록|">복습해야 할 문제 목록</h1>
         </div>
         <p class="brand-logo">CODE REMINDER</p>
     </div>
@@ -23,6 +23,7 @@
                 <th>유저명</th>
                 <th>문제 번호</th>
                 <th>복습 결과</th>
+                <th>다음 복습날</th>
                 <th>바로가기</th>
             </tr>
             </thead>
@@ -38,8 +39,11 @@
                        th:text="${item.problemId}"
                        target="_blank">problemId</a>
                 </td>
-                <td th:text="${item.isCompletedReview(today)} ? ${item.resultText} : '아직 복습 X'">
+                <td th:text="${item.isCompletedReview(today)} ? '복습 완료' : '미복습'">
                     복습 결과
+                </td>
+                <td th:text="${item.nextReviewDate}">
+                    다음 복습날
                 </td>
                 <td>
                     <button>

@@ -68,7 +68,7 @@ public class ReviewItemService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReviewItem> getReviewItems(String userName, LocalDate date) {
-        return repository.findByUserNameAndNextReviewDate(userName, date);
+    public List<ReviewItem> getReviewItems(String userName) {
+        return repository.findByUserNameOrderByNextReviewDate(userName);
     }
 }
