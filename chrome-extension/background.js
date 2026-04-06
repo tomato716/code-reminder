@@ -1,7 +1,5 @@
 console.log = function () {};
-// ==========================================
-// 1. [데이터 저장] 스파이의 무전을 받아 백엔드로 POST 전송
-// ==========================================
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "sendData") {
     console.log(
@@ -9,10 +7,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       request.data,
     );
 
-    // 알림 기능을 위해 제출한 유저의 아이디를 브라우저에 저장해둡니다.
     chrome.storage.local.set({ userName: request.data.userName });
 
-    // 백엔드의 POST 저장 API 호출
     fetch("https://code-reminder.duckdns.org/api/review-item", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -31,17 +27,27 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse({ success: false, error: error.message });
       });
 
-    return true; // 비동기 응답을 위해 필수!
+    return true;
   }
 });
 
-// 2. [알림 시스템] 브라우저 접속 시 "딱 한 번" 실행
-// 크롬 브라우저를 완전히 껐다가 새로 켰을 때 실행됩니다.
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.alarms.create("checkReviewAlarm", { periodInMinutes: 60 });
+
+  checkAndNotify();
+
+});
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name === "checkReviewAlarm") {
+    checkAndNotify();
+  }
+});
+
 chrome.runtime.onStartup.addListener(() => {
   checkAndNotify();
 });
 
-// 백엔드에 개수 물어보고 알림 띄우는 함수
 async function checkAndNotify() {
   const storageData = await chrome.storage.local.get([
     "userName",
@@ -49,7 +55,6 @@ async function checkAndNotify() {
   ]);
   if (!storageData.userName) return;
 
-  // 1. 오늘 이미 알람을 보냈는지 날짜 체크
   const todayDate = new Date().toLocaleDateString(); // 예: "2026. 3. 23."
   if (storageData.lastNotifyDate === todayDate) {
     console.log("이미 오늘 알람을 보냈습니다. 통과!");
@@ -74,7 +79,6 @@ async function checkAndNotify() {
         requireInteraction: true,
       });
 
-      // 2. 알람을 보낸 후, 오늘 날짜를 storage에 저장
       chrome.storage.local.set({ lastNotifyDate: todayDate });
     }
   } catch (error) {
@@ -82,11 +86,9 @@ async function checkAndNotify() {
   }
 }
 
-// 버튼을 눌렀을 때 실행되는 로직
 chrome.notifications.onButtonClicked.addListener(
   (notificationId, buttonIndex) => {
     if (buttonIndex === 0) {
-      // 첫 번째 버튼(복습하러 가기)을 눌렀을 때
       chrome.storage.local.get("userName", (data) => {
         const reviewUrl = `https://code-reminder.duckdns.org/reviews/${data.userName}`;
         chrome.tabs.create({ url: reviewUrl });
