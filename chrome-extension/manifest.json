@@ -15,7 +15,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://www.acmicpc.net/status*"],
+      "matches": ["https://www.acmicpc.net/status*"],
       "js": ["content.js"]
     }
   ]
