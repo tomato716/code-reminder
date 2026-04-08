@@ -1,8 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Code Reminder (백준 복습 알리미)",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "코딩테스트 오답 복습을 도와주는 알림 서비스입니다.",
+  "icons": {
+    "16": "main_icon.png",
+    "48": "main_icon.png",
+    "128": "main_icon.png"
+  },
   "permissions": ["notifications", "storage", "alarms"],
   "host_permissions": ["https://code-reminder.duckdns.org/*", "https://www.acmicpc.net/*"],
   "background": {
@@ -10,7 +15,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://www.acmicpc.net/status*"],
+      "matches": ["https://www.acmicpc.net/status*"],
       "js": ["content.js"]
     }
   ]
