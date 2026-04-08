@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Code Reminder (백준 복습 알리미)",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "코딩테스트 오답 복습을 도와주는 알림 서비스입니다.",
   "icons": {
     "16": "main_icon.png",
